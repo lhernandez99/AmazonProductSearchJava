@@ -13,6 +13,28 @@ public class Server {
         // Set the server port
         port(4567);
 
+        // Enable CORS for all origins (for development only)
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+            response.header("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+        });
+
+        // Handle OPTIONS preflight requests for CORS
+        options("/*", (request, response) -> {
+            String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+            if (accessControlRequestHeaders != null) {
+                response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+            }
+
+            String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+            if (accessControlRequestMethod != null) {
+                response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+            }
+
+            return "OK";
+        });
+
         // Serve static files from the "public" folder (src/main/resources/public)
         staticFiles.location("/public");
 
@@ -35,15 +57,14 @@ public class Server {
             return new Gson().toJson(results);
         });
 
-        // Optional: Health check endpoint (optional, not overriding /)
-        //get("/status", (req, res) -> "Amazon Product Search API is running!");
+        // Optional: Health check endpoint
         get("/test", (req, res) -> "Hello from test route!");
 
+        // Redirect root to index.html
         get("/", (req, res) -> {
             res.redirect("/index.html");
             return null;
-});
-
+        });
     }
 
     /**

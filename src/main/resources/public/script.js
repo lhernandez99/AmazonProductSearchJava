@@ -1,7 +1,6 @@
-// public/script.js
 function searchProducts() {
   const query = document.getElementById('searchInput').value;
-  fetch(`/search?query=${encodeURIComponent(query)}`)
+  fetch(`http://localhost:4567/search?query=${encodeURIComponent(query)}`)
     .then(res => res.json())
     .then(data => {
       const resultsDiv = document.getElementById('results');
