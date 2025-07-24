@@ -24,6 +24,7 @@ This project demonstrates:
 - Responsive UI with loading states and error handling.
 
 ---
+<img width="633" height="207" alt="image" src="https://github.com/user-attachments/assets/b1dc99d4-39df-4e5c-b8c7-c6a9f5fb0ef4" />
 
 ## Getting Started
 
